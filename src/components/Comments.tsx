@@ -159,7 +159,7 @@ const Comments = ({ animeId, movieId }: CommentsProps) => {
             <div key={comment.id} className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-4 space-y-2">
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
-                  <p className="font-semibold text-sm">@{comment.display_name || "Anonymous"}</p>
+                  <p className="font-semibold text-sm">{comment.display_name || "Anonymous"}</p>
                   <p className="text-xs text-muted-foreground">
                     {formatDistanceToNow(new Date(comment.created_at), {
                       addSuffix: true,
