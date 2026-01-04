@@ -16,9 +16,7 @@ interface Comment {
   content: string
   created_at: string
   user_id: string
-  profiles: {
-    username: string | null
-  } | null
+  display_name: string | null
 }
 
 interface CommentsProps {
@@ -47,12 +45,11 @@ const Comments = ({ animeId, movieId }: CommentsProps) => {
 
       const { data: commentsData, error: commentsError } = await supabase
         .from("comments")
-        .select("*")
+        .select("id, content, created_at, user_id, display_name")
         .eq(filterColumn, contentId)
         .order("created_at", { ascending: false })
 
       if (commentsError) {
-        console.log("[v0] Comments fetch error:", commentsError)
         return
       }
 
@@ -61,24 +58,9 @@ const Comments = ({ animeId, movieId }: CommentsProps) => {
         return
       }
 
-      const commentsWithProfiles = await Promise.all(
-        commentsData.map(async (comment) => {
-          const { data: profile } = await supabase
-            .from("profiles")
-            .select("username")
-            .eq("id", comment.user_id)
-            .single()
-
-          return {
-            ...comment,
-            profiles: profile,
-          }
-        }),
-      )
-
-      setComments(commentsWithProfiles as any)
+      setComments(commentsData as any)
     } catch (err) {
-      console.log("[v0] Exception in fetchComments:", err)
+      // Silent error handling
     }
   }
 
@@ -88,12 +70,20 @@ const Comments = ({ animeId, movieId }: CommentsProps) => {
 
     setLoading(true)
     try {
-      console.log("[v0] Attempting to post comment for user:", user.id)
-      console.log("[v0] Content type:", contentType, "ID:", contentId)
+      let displayName = "User"
+
+      if (user.user_metadata?.full_name) {
+        displayName = user.user_metadata.full_name
+      } else if (user.user_metadata?.name) {
+        displayName = user.user_metadata.name
+      } else if (user.email) {
+        displayName = user.email.split("@")[0]
+      }
 
       const insertData: any = {
         user_id: user.id,
         content: newComment.trim(),
+        display_name: displayName,
       }
 
       if (contentType === "anime") {
@@ -105,14 +95,12 @@ const Comments = ({ animeId, movieId }: CommentsProps) => {
       const { data, error } = await supabase.from("comments").insert(insertData).select()
 
       if (error) {
-        console.log("[v0] Comment insert error:", error)
         toast({
           title: "Error",
           description: `Failed to post comment: ${error.message}`,
           variant: "destructive",
         })
       } else {
-        console.log("[v0] Comment posted successfully:", data)
         setNewComment("")
         fetchComments()
         toast({
@@ -121,7 +109,6 @@ const Comments = ({ animeId, movieId }: CommentsProps) => {
         })
       }
     } catch (err) {
-      console.log("[v0] Exception in handleSubmit:", err)
       toast({
         title: "Error",
         description: "An unexpected error occurred",
@@ -172,7 +159,7 @@ const Comments = ({ animeId, movieId }: CommentsProps) => {
             <div key={comment.id} className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-4 space-y-2">
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
-                  <p className="font-semibold text-sm">{comment.profiles?.username || "Anonymous"}</p>
+                  <p className="font-semibold text-sm">@{comment.display_name || "Anonymous"}</p>
                   <p className="text-xs text-muted-foreground">
                     {formatDistanceToNow(new Date(comment.created_at), {
                       addSuffix: true,
