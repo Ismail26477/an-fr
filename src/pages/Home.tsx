@@ -153,8 +153,9 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="relative">
-        <Navigation />
+      <Navigation />
+
+      <div className="pt-16 md:pt-20">
         <HeroSection />
       </div>
 
