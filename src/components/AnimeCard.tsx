@@ -38,3 +38,4 @@ const AnimeCard = ({ id, title, image, badge, type = "anime" }: AnimeCardProps) 
 }
 
 export default AnimeCard
+
