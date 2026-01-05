@@ -73,3 +73,4 @@ const AnimeRow = ({ title, animes }: AnimeRowProps) => {
 }
 
 export default AnimeRow
+ 
