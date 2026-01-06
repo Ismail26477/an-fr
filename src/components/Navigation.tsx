@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/button"
 import { useAuth } from "@/hooks/useAuth"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useState, useEffect, useRef } from "react"
+import { SearchModal } from "./SearchModal"
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
-  const [showInlineSearch, setShowInlineSearch] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
+  const [showMobileSearch, setShowMobileSearch] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
   const { user, signOut } = useAuth()
   const location = useLocation()
@@ -35,12 +35,6 @@ const Navigation = () => {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [lastScrollY])
-
-  useEffect(() => {
-    if (showInlineSearch && searchInputRef.current) {
-      searchInputRef.current.focus()
-    }
-  }, [showInlineSearch])
 
   const navItems = [
     { name: "Anime", path: "/anime", icon: null },
@@ -102,34 +96,9 @@ const Navigation = () => {
             </div>
           </div>
 
-          {/* CENTER SECTION: INLINE SEARCH BAR */}
-          <div className="hidden md:flex flex-1 max-w-xs justify-center px-4">
-            {showInlineSearch ? (
-              <div className="relative w-full">
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onBlur={() => {
-                    if (!searchQuery) setShowInlineSearch(false)
-                  }}
-                  placeholder="Search anime, movies..."
-                  className="w-full px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-purple-500 focus:bg-white/20 transition-all duration-200"
-                />
-                <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50 pointer-events-none" />
-              </div>
-            ) : (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="hover:bg-white/10 text-white transition-all duration-200"
-                onClick={() => setShowInlineSearch(true)}
-                aria-label="Open search"
-              >
-                <Search className="h-5 w-5" />
-              </Button>
-            )}
+          {/* CENTER SECTION: DESKTOP SEARCH BAR */}
+          <div className="hidden md:flex flex-1 max-w-md justify-center px-4">
+            <SearchModal />
           </div>
 
           {/* RIGHT SECTION: MOBILE SEARCH & USER MENU */}
@@ -139,7 +108,7 @@ const Navigation = () => {
               variant="ghost"
               size="icon"
               className="md:hidden hover:bg-white/10 text-white transition-all duration-200"
-              onClick={() => setShowInlineSearch(!showInlineSearch)}
+              onClick={() => setShowMobileSearch(!showMobileSearch)}
               aria-label="Search"
             >
               <Search className="h-5 w-5" />
@@ -186,20 +155,10 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* MOBILE INLINE SEARCH BAR */}
-        {showInlineSearch && (
+        {/* MOBILE SEARCH BAR */}
+        {showMobileSearch && (
           <div className="md:hidden pb-4 pt-2 animate-in fade-in slide-in-from-top-2">
-            <div className="relative">
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search anime, movies..."
-                className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-purple-500 focus:bg-white/20 transition-all duration-200"
-              />
-              <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50 pointer-events-none" />
-            </div>
+            <SearchModal onClose={() => setShowMobileSearch(false)} />
           </div>
         )}
 
