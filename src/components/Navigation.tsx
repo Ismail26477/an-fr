@@ -48,7 +48,7 @@ const Navigation = () => {
     <nav
       className={`w-full fixed top-0 left-0 right-0 z-50 transition-transform duration-300 
         ${isVisible ? "translate-y-0" : "-translate-y-full"}
-        ${isScrolled ? "bg-black/90 backdrop-blur-lg shadow-2xl" : "bg-black md:bg-gradient-to-b md:from-black/80 md:to-transparent"}
+        ${isScrolled ? "bg-gradient-to-b from-black/95 via-black/85 to-transparent backdrop-blur-xl shadow-[0_8px_32px_rgba(168,85,247,0.2)]" : "bg-gradient-to-b from-black/90 via-black/70 to-transparent md:from-black/80 md:via-black/50 md:to-transparent backdrop-blur-sm"}
       `}
     >
       <div className="max-w-9xl mx-auto px-3 md:px-6">
