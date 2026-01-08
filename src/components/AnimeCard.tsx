@@ -30,7 +30,7 @@ const AnimeCard = ({ id, title, image, badge, type = "anime" }: AnimeCardProps) 
 
         {/* Title at bottom left */}
         <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
-          <h3 className="text-sm md:text-base font-semibold line-clamp-2 drop-shadow-lg">{title}</h3>
+          <h3 className="text-sm md:text-base font-semibold line-clamp-2 drop-shadow-lg text-white">{title}</h3>
         </div>
       </div>
     </Link>
@@ -38,4 +38,3 @@ const AnimeCard = ({ id, title, image, badge, type = "anime" }: AnimeCardProps) 
 }
 
 export default AnimeCard
-
