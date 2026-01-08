@@ -71,7 +71,7 @@ const Navigation = () => {
               <img
                 src="/logo.png"
                 alt="Anidost Logo"
-                className="h-28 md:h-32 w-auto object-contain drop-shadow-lg group-hover:drop-shadow-[0_0_20px_rgba(168,85,247,0.8)] transition-all duration-300"
+                className="h-20 md:h-24 w-auto object-contain drop-shadow-lg group-hover:drop-shadow-[0_0_20px_rgba(168,85,247,0.8)] transition-all duration-300"
               />
             </Link>
 
