@@ -175,8 +175,8 @@ const MovieDetail = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="relative left-0 top-0 w-full h-auto z-0">
-        <div className="aspect-video w-full max-h-[390px] md:max-h-[570px] overflow-hidden bg-background/50">
+      <div className="relative left-0 top-0 w-full h-auto z-0 pt-16 md:pt-20">
+        <div className="aspect-video w-full max-h-[350px] md:max-h-[550px] overflow-hidden bg-background/50">
           <div
             className="w-full h-full bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${movie.thumbnail_url || "/placeholder.svg"})` }}
