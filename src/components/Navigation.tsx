@@ -67,9 +67,11 @@ const Navigation = () => {
 
           {/* CENTER: LOGO */}
           <Link to="/" className="flex-1 flex justify-center group transition-all duration-300">
-            <span className="text-2xl font-bold text-purple-400 group-hover:text-purple-300 transition-colors">
-              Anidost
-            </span>
+            <img
+              src="/logo.png"
+              alt="Anidost Logo"
+              className="h-12 md:h-32 w-auto object-contain drop-shadow-lg group-hover:drop-shadow-[0_0_20px_rgba(168,85,247,0.8)] transition-all duration-300"
+            />
           </Link>
 
           {/* RIGHT: SEARCH & USER MENU */}
@@ -130,7 +132,7 @@ const Navigation = () => {
               <img
                 src="/logo.png"
                 alt="Anidost Logo"
-                className="h-20 md:h-24 w-auto object-contain drop-shadow-lg group-hover:drop-shadow-[0_0_20px_rgba(168,85,247,0.8)] transition-all duration-300"
+                className="h-28 md:h-32 w-auto object-contain drop-shadow-lg group-hover:drop-shadow-[0_0_20px_rgba(168,85,247,0.8)] transition-all duration-300"
               />
             </Link>
 
