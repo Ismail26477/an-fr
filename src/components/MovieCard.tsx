@@ -25,17 +25,17 @@ const MovieCard = ({ id, title, image, rating, year }: MovieCardProps) => {
         {/* Content section */}
         <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 space-y-2">
           {/* Title */}
-          <h3 className="text-sm md:text-base font-semibold line-clamp-2 drop-shadow-lg">{title}</h3>
+          <h3 className="text-sm md:text-base font-semibold line-clamp-2 drop-shadow-lg text-white">{title}</h3>
 
           {/* Rating and Year */}
-          <div className="flex items-center gap-3 text-xs md:text-sm text-foreground/90">
+          <div className="flex items-center gap-3 text-xs md:text-sm text-white">
             {rating && (
               <div className="flex items-center gap-1">
                 <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                 <span>{rating}/10</span>
               </div>
             )}
-            {year && <span className="text-foreground/70">{year}</span>}
+            {year && <span className="text-white/70">{year}</span>}
           </div>
         </div>
       </div>
