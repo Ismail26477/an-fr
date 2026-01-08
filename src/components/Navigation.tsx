@@ -52,69 +52,38 @@ const Navigation = () => {
       `}
     >
       <div className="max-w-9xl mx-auto px-3 md:px-6">
-        <div className="flex items-center justify-between h-16 md:h-20 gap-2 md:gap-4">
-          {/* LEFT SECTION: MENU & LOGO */}
-          <div className="flex items-center gap-3 md:gap-4 min-w-0">
-            {/* MOBILE MENU TOGGLE */}
+        {/* MOBILE NAVBAR - CENTERED LOGO */}
+        <div className="md:hidden flex items-center justify-between h-16">
+          {/* LEFT: MENU BUTTON */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hover:bg-white/10 text-white flex-shrink-0 transition-colors duration-200"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
+
+          {/* CENTER: LOGO */}
+          <Link to="/" className="flex-1 flex justify-center group transition-all duration-300">
+            <span className="text-2xl font-bold text-purple-400 group-hover:text-purple-300 transition-colors">
+              Anidost
+            </span>
+          </Link>
+
+          {/* RIGHT: SEARCH & USER MENU */}
+          <div className="flex items-center gap-2 flex-shrink-0">
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden hover:bg-white/10 text-white flex-shrink-0 transition-colors duration-200"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
-
-            {/* LOGO */}
-            <Link to="/" className="flex items-center group transition-all duration-300 flex-shrink-0">
-              <img
-                src="/logo.png"
-                alt="Anidost Logo"
-                className="h-20 md:h-24 w-auto object-contain drop-shadow-lg group-hover:drop-shadow-[0_0_20px_rgba(168,85,247,0.8)] transition-all duration-300"
-              />
-            </Link>
-
-            {/* DESKTOP NAVIGATION MENU */}
-            <div className="hidden md:flex items-center gap-1 ml-6">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`relative px-3 py-2 font-medium text-sm transition-all duration-300 group
-                    ${isActive(item.path) ? "text-purple-400" : "text-white/70 hover:text-white"}
-                  `}
-                >
-                  {item.name}
-                  <span
-                    className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300
-                    ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-50"}
-                  `}
-                  />
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* CENTER SECTION: DESKTOP SEARCH BAR */}
-          <div className="hidden md:flex flex-1 max-w-md justify-center px-4">
-            <SearchModal />
-          </div>
-
-          {/* RIGHT SECTION: MOBILE SEARCH & USER MENU */}
-          <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
-            {/* MOBILE SEARCH BUTTON */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden hover:bg-white/10 text-white transition-all duration-200"
+              className="hover:bg-white/10 text-white transition-all duration-200"
               onClick={() => setShowMobileSearch(!showMobileSearch)}
               aria-label="Search"
             >
               <Search className="h-5 w-5" />
             </Button>
 
-            {/* USER MENU DROPDOWN */}
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -144,11 +113,86 @@ const Navigation = () => {
               </DropdownMenu>
             ) : (
               <Link to="/auth">
-                <Button className="hidden sm:inline-flex bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white transition-all duration-200 px-5 py-2 font-medium shadow-lg hover:shadow-purple-500/50">
-                  Sign In
-                </Button>
-                <Button variant="ghost" size="icon" className="sm:hidden text-white hover:bg-purple-500/20">
+                <Button variant="ghost" size="icon" className="text-white hover:bg-purple-500/20">
                   <User className="h-5 w-5" />
+                </Button>
+              </Link>
+            )}
+          </div>
+        </div>
+
+        {/* DESKTOP NAVBAR */}
+        <div className="hidden md:flex items-center justify-between h-20 gap-2 md:gap-4">
+          {/* LEFT SECTION: MENU & LOGO */}
+          <div className="flex items-center gap-3 md:gap-4 min-w-0 flex-1 md:flex-none">
+            {/* LOGO - DESKTOP */}
+            <Link to="/" className="flex items-center group transition-all duration-300 flex-shrink-0">
+              <img
+                src="/logo.png"
+                alt="Anidost Logo"
+                className="h-28 md:h-32 w-auto object-contain drop-shadow-lg group-hover:drop-shadow-[0_0_20px_rgba(168,85,247,0.8)] transition-all duration-300"
+              />
+            </Link>
+
+            {/* DESKTOP NAVIGATION MENU */}
+            <div className="hidden md:flex items-center gap-1 ml-6">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`relative px-3 py-2 font-medium text-sm transition-all duration-300 group
+                    ${isActive(item.path) ? "text-purple-400" : "text-white/70 hover:text-white"}
+                  `}
+                >
+                  {item.name}
+                  <span
+                    className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300
+                    ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-50"}
+                  `}
+                  />
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* CENTER SECTION: DESKTOP SEARCH BAR */}
+          <div className="hidden md:flex flex-1 max-w-md justify-center px-4">
+            <SearchModal />
+          </div>
+
+          {/* RIGHT SECTION: DESKTOP USER MENU */}
+          <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="hover:bg-purple-500/20 text-white transition-all duration-200 group"
+                  >
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:shadow-lg group-hover:shadow-purple-500/50 transition-all duration-200">
+                      <User className="h-4 w-4 text-white" />
+                    </div>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48 bg-black/95 border-white/20 backdrop-blur-sm">
+                  <DropdownMenuItem className="text-white/70 hover:text-white cursor-default">
+                    <span className="text-xs">{user?.email}</span>
+                  </DropdownMenuItem>
+                  <div className="border-t border-white/20 my-2" />
+                  <DropdownMenuItem
+                    onClick={signOut}
+                    className="text-white hover:text-red-400 cursor-pointer transition-colors duration-200"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/auth">
+                <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white transition-all duration-200 px-5 py-2 font-medium shadow-lg hover:shadow-purple-500/50">
+                  Sign In
                 </Button>
               </Link>
             )}
